@@ -3,210 +3,229 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard de Performance - Campanha de Leads WhatsApp- CotaSeg</title>
+<title>Dashboard — Campanha de Leads WhatsApp · CotaSeg</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
-
   :root {
-    --bg: #0a0c10;
-    --surface: #111318;
-    --surface2: #181c23;
-    --border: rgba(255,255,255,0.07);
-    --text: #f0f2f5;
-    --muted: #6b7280;
-    --green: #22d3a5;
-    --green-bg: rgba(34,211,165,0.08);
-    --yellow: #f59e0b;
-    --yellow-bg: rgba(245,158,11,0.08);
-    --red: #f43f5e;
-    --red-bg: rgba(244,63,94,0.08);
-    --blue: #60a5fa;
-    --blue-bg: rgba(96,165,250,0.08);
-    --accent: #7c6af7;
-    --accent2: #22d3a5;
-    --radius: 16px;
-    --radius-sm: 10px;
+    --bg:       #080b12;
+    --s1:       #0e1219;
+    --s2:       #141920;
+    --border:   rgba(255,255,255,0.06);
+    --text:     #e8ecf2;
+    --muted:    #5a6475;
+    --dim:      #3a4150;
+    --green:    #00e5a0;
+    --green2:   rgba(0,229,160,0.10);
+    --amber:    #ffb020;
+    --amber2:   rgba(255,176,32,0.10);
+    --rose:     #ff4f6d;
+    --rose2:    rgba(255,79,109,0.10);
+    --ice:      #5eb8ff;
+    --ice2:     rgba(94,184,255,0.10);
+    --purple:   #a78bfa;
+    --r:        14px;
+    --rsm:      10px;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Manrope', sans-serif;
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    padding: 0;
     overflow-x: hidden;
   }
 
-  /* Background mesh */
+  /* ── NOISE + GLOW BG ── */
   body::before {
     content: '';
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background:
-      radial-gradient(ellipse 80% 50% at 20% -10%, rgba(124,106,247,0.12) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 40% at 80% 100%, rgba(34,211,165,0.08) 0%, transparent 60%);
+      radial-gradient(ellipse 70% 55% at 15% -5%, rgba(0,229,160,0.07) 0%, transparent 65%),
+      radial-gradient(ellipse 55% 45% at 90% 95%, rgba(94,184,255,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 50% 50%, rgba(167,139,250,0.04) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
   }
 
-  .wrapper {
+  .page {
     position: relative;
     z-index: 1;
-    max-width: 1280px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 32px 24px 64px;
+    padding: 36px 28px 72px;
   }
 
   /* ── HEADER ── */
   .header {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 40px;
-    animation: fadeUp 0.6s ease both;
+    margin-bottom: 36px;
+    animation: up .5s ease both;
   }
 
-  .header-top {
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--green);
+    background: var(--green2);
+    border: 1px solid rgba(0,229,160,0.2);
+    padding: 4px 12px;
+    border-radius: 100px;
+    margin-bottom: 14px;
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 5px; height: 5px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: blink 2.2s infinite;
+  }
+
+  .header-row {
     display: flex;
-    align-items: flex-start;
+    align-items: flex-end;
     justify-content: space-between;
-    gap: 16px;
+    gap: 20px;
     flex-wrap: wrap;
   }
 
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--green-bg);
-    border: 1px solid rgba(34,211,165,0.2);
-    color: var(--green);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 5px 12px;
-    border-radius: 100px;
-    margin-bottom: 12px;
-  }
-
-  .badge::before {
-    content: '';
-    width: 6px; height: 6px;
-    background: var(--green);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-
   h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(22px, 4vw, 36px);
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(20px, 2.8vw, 30px);
     font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: 1.1;
+    line-height: 1.18;
+    letter-spacing: -0.01em;
     color: var(--text);
   }
 
-  .subtitle {
-    color: var(--muted);
-    font-size: 14px;
+  .h1-sub {
+    display: block;
+    font-size: clamp(13px, 1.6vw, 16px);
     font-weight: 400;
+    color: var(--muted);
     margin-top: 4px;
+    letter-spacing: 0;
   }
 
-  .date-tag {
-    font-size: 12px;
+  .date-pill {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
     color: var(--muted);
-    background: var(--surface);
+    background: var(--s1);
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 8px 14px;
+    padding: 7px 13px;
     white-space: nowrap;
     flex-shrink: 0;
   }
 
-  /* ── BUDGET ALERT ── */
-  .budget-alert {
-    background: linear-gradient(135deg, rgba(244,63,94,0.12), rgba(245,158,11,0.08));
-    border: 1px solid rgba(244,63,94,0.3);
-    border-radius: var(--radius);
+  /* ── BUDGET BANNER ── */
+  .budget-banner {
+    background: var(--s1);
+    border: 1px solid rgba(255,79,109,0.25);
+    border-radius: var(--r);
     padding: 20px 24px;
-    margin-bottom: 32px;
-    display: flex;
+    margin-bottom: 28px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-    animation: fadeUp 0.6s 0.1s ease both;
+    gap: 20px;
+    animation: up .5s .08s ease both;
   }
 
-  .alert-icon {
-    font-size: 28px;
-    flex-shrink: 0;
+  @media (max-width: 640px) {
+    .budget-banner { grid-template-columns: 1fr; }
   }
 
-  .alert-content { flex: 1; min-width: 200px; }
-  .alert-content strong {
+  .bb-icon { font-size: 26px; }
+
+  .bb-text strong {
     display: block;
-    font-family: 'Syne', sans-serif;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 700;
-    color: var(--red);
+    color: var(--rose);
     margin-bottom: 2px;
   }
-  .alert-content p { font-size: 13px; color: var(--muted); }
 
-  .budget-bar-wrap { flex: 2; min-width: 200px; }
-  .budget-labels {
+  .bb-text p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  .bb-bar-col { min-width: 220px; }
+
+  .bb-labels {
     display: flex;
     justify-content: space-between;
-    font-size: 12px;
-    color: var(--muted);
+    font-size: 11.5px;
     margin-bottom: 8px;
   }
-  .budget-labels span:last-child { color: var(--red); font-weight: 600; }
-  .budget-bar {
-    height: 8px;
-    background: rgba(255,255,255,0.08);
+
+  .bb-labels .spent { color: var(--text); font-weight: 600; }
+  .bb-labels .left  { color: var(--rose); font-weight: 600; }
+
+  .bb-track {
+    height: 7px;
+    background: rgba(255,255,255,0.07);
     border-radius: 100px;
     overflow: hidden;
   }
-  .budget-fill {
+
+  .bb-fill {
     height: 100%;
-    width: 73.9%;
-    background: linear-gradient(90deg, var(--yellow), var(--red));
+    width: 83.7%;
+    background: linear-gradient(90deg, var(--amber), var(--rose));
     border-radius: 100px;
-    position: relative;
-    animation: growWidth 1.2s 0.5s cubic-bezier(.4,0,.2,1) both;
+    animation: grow 1.2s .6s cubic-bezier(.4,0,.2,1) both;
+  }
+
+  .bb-pct {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 6px;
+    display: flex;
+    justify-content: space-between;
   }
 
   /* ── KPI GRID ── */
   .kpi-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 16px;
-    margin-bottom: 32px;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+    margin-bottom: 28px;
   }
 
-  .kpi-card {
-    background: var(--surface);
+  @media (max-width: 900px) {
+    .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (max-width: 520px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .kpi {
+    background: var(--s1);
     border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 22px 20px;
+    border-radius: var(--r);
+    padding: 18px 16px 16px;
     position: relative;
     overflow: hidden;
-    transition: transform 0.2s, border-color 0.2s;
-    animation: fadeUp 0.6s ease both;
+    transition: transform .2s, border-color .2s;
+    animation: up .5s ease both;
   }
 
-  .kpi-card:hover {
-    transform: translateY(-2px);
-    border-color: rgba(255,255,255,0.14);
+  .kpi:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255,255,255,0.12);
   }
 
-  .kpi-card::after {
+  .kpi::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
@@ -214,429 +233,390 @@
     border-radius: 2px 2px 0 0;
   }
 
-  .kpi-card.green::after { background: var(--green); }
-  .kpi-card.yellow::after { background: var(--yellow); }
-  .kpi-card.red::after { background: var(--red); }
-  .kpi-card.blue::after { background: var(--blue); }
-  .kpi-card.accent::after { background: var(--accent); }
+  .kpi.g::before { background: var(--green); }
+  .kpi.a::before { background: var(--amber); }
+  .kpi.r::before { background: var(--rose); }
+  .kpi.i::before { background: var(--ice); }
+  .kpi.p::before { background: var(--purple); }
 
   .kpi-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .09em;
     text-transform: uppercase;
     color: var(--muted);
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    margin-bottom: 12px;
   }
 
-  .kpi-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .green .kpi-dot { background: var(--green); }
-  .yellow .kpi-dot { background: var(--yellow); }
-  .red .kpi-dot { background: var(--red); }
-  .blue .kpi-dot { background: var(--blue); }
-  .accent .kpi-dot { background: var(--accent); }
-
-  .kpi-value {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(24px, 4vw, 32px);
-    font-weight: 800;
-    letter-spacing: -0.02em;
+  .kpi-num {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(18px, 2vw, 24px);
+    font-weight: 700;
     line-height: 1;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
 
-  .green .kpi-value { color: var(--green); }
-  .yellow .kpi-value { color: var(--yellow); }
-  .red .kpi-value { color: var(--red); }
-  .blue .kpi-value { color: var(--blue); }
-  .accent .kpi-value { color: var(--accent); }
+  .kpi.g .kpi-num { color: var(--green); }
+  .kpi.a .kpi-num { color: var(--amber); }
+  .kpi.r .kpi-num { color: var(--rose); }
+  .kpi.i .kpi-num { color: var(--ice); }
+  .kpi.p .kpi-num { color: var(--purple); }
 
-  .kpi-sub {
-    font-size: 12px;
-    color: var(--muted);
+  .kpi-hint {
+    font-size: 10.5px;
+    color: var(--dim);
+    line-height: 1.4;
+    margin-bottom: 10px;
   }
 
-  .kpi-badge {
+  .tag {
     display: inline-flex;
     align-items: center;
     gap: 3px;
-    font-size: 11px;
-    font-weight: 600;
+    font-size: 10px;
+    font-weight: 700;
     padding: 2px 8px;
     border-radius: 100px;
-    margin-top: 6px;
   }
-  .kpi-badge.good { background: var(--green-bg); color: var(--green); }
-  .kpi-badge.warn { background: var(--yellow-bg); color: var(--yellow); }
-  .kpi-badge.bad  { background: var(--red-bg);    color: var(--red);    }
 
-  /* ── BOTTOM GRID ── */
-  .bottom-grid {
+  .tag.ok   { background: var(--green2); color: var(--green); }
+  .tag.warn { background: var(--amber2); color: var(--amber); }
+  .tag.bad  { background: var(--rose2);  color: var(--rose); }
+
+  /* ── TWO PANELS ── */
+  .panels {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
   }
 
-  @media (max-width: 768px) {
-    .bottom-grid { grid-template-columns: 1fr; }
-    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 720px) {
+    .panels { grid-template-columns: 1fr; }
   }
 
   .panel {
-    background: var(--surface);
+    background: var(--s1);
     border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 24px;
-    animation: fadeUp 0.6s ease both;
+    border-radius: var(--r);
+    padding: 22px 22px 20px;
+    animation: up .5s .22s ease both;
   }
 
-  .panel-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 14px;
+  .panel-h {
+    font-size: 12px;
     font-weight: 700;
-    color: var(--text);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--muted);
     margin-bottom: 20px;
     display: flex;
     align-items: center;
     gap: 8px;
   }
 
-  .panel-title span {
-    font-size: 16px;
-  }
+  .panel-h span { font-size: 15px; }
 
-  /* ── CHART ── */
-  .chart-wrap {
-    position: relative;
-    height: 200px;
-  }
+  .chart-box { position: relative; height: 210px; }
 
-  /* ── METRICS LIST ── */
-  .metric-row {
+  /* ── METRIC ROWS ── */
+  .mrow {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
     gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
   }
 
-  .metric-row:last-child { border-bottom: none; }
+  .mrow:last-child { border-bottom: none; }
 
-  .metric-name {
-    font-size: 13px;
+  .mrow-label {
+    font-size: 12px;
     color: var(--muted);
-    flex: 1;
+    width: 120px;
+    flex-shrink: 0;
   }
 
-  .metric-bar-wrap { flex: 2; }
-  .metric-bar {
-    height: 5px;
-    background: rgba(255,255,255,0.06);
+  .mrow-track {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,0.05);
     border-radius: 100px;
     overflow: hidden;
   }
-  .metric-bar-fill {
+
+  .mrow-fill {
     height: 100%;
     border-radius: 100px;
-    animation: growWidth 1s ease both;
+    animation: grow 1s ease both;
   }
 
-  .metric-val {
-    font-family: 'Syne', sans-serif;
-    font-size: 14px;
+  .mrow-val {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
     font-weight: 700;
-    white-space: nowrap;
-    min-width: 70px;
+    min-width: 68px;
     text-align: right;
   }
 
   /* ── INSIGHTS ── */
-  .insights-grid {
+  .insights {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 14px;
-    margin-bottom: 32px;
-    animation: fadeUp 0.6s 0.3s ease both;
+    gap: 13px;
+    margin-bottom: 36px;
+    animation: up .5s .3s ease both;
   }
 
-  .insight-card {
-    background: var(--surface);
+  .ins {
+    background: var(--s1);
     border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 18px 20px;
+    border-radius: var(--rsm);
+    padding: 16px 18px;
     display: flex;
-    gap: 14px;
+    gap: 13px;
     align-items: flex-start;
-    transition: transform 0.2s;
+    transition: transform .2s;
   }
 
-  .insight-card:hover { transform: translateY(-2px); }
+  .ins:hover { transform: translateY(-2px); }
 
-  .insight-icon {
-    font-size: 22px;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
+  .ins.ok   { border-color: rgba(0,229,160,0.15);   background: linear-gradient(135deg, var(--s1), rgba(0,229,160,0.03)); }
+  .ins.warn { border-color: rgba(255,176,32,0.15);   background: linear-gradient(135deg, var(--s1), rgba(255,176,32,0.03)); }
+  .ins.info { border-color: rgba(94,184,255,0.15);   background: linear-gradient(135deg, var(--s1), rgba(94,184,255,0.03)); }
 
-  .insight-body strong {
+  .ins-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+
+  .ins-body strong {
     display: block;
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 12.5px;
+    font-weight: 700;
     color: var(--text);
     margin-bottom: 4px;
   }
 
-  .insight-body p {
-    font-size: 12px;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-
-  .insight-card.good { border-color: rgba(34,211,165,0.18); background: linear-gradient(135deg, var(--surface), rgba(34,211,165,0.04)); }
-  .insight-card.warn { border-color: rgba(245,158,11,0.18); background: linear-gradient(135deg, var(--surface), rgba(245,158,11,0.04)); }
-  .insight-card.info { border-color: rgba(96,165,250,0.18); background: linear-gradient(135deg, var(--surface), rgba(96,165,250,0.04)); }
+  .ins-body p { font-size: 11.5px; color: var(--muted); line-height: 1.55; }
 
   /* ── FOOTER ── */
   .footer {
     text-align: center;
-    font-size: 12px;
-    color: var(--muted);
-    padding-top: 24px;
+    font-size: 11.5px;
+    color: var(--dim);
+    padding-top: 22px;
     border-top: 1px solid var(--border);
-    animation: fadeUp 0.6s 0.4s ease both;
   }
 
-  .footer strong { color: var(--text); }
+  .footer strong { color: var(--muted); }
 
   /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
+  @keyframes up {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: none; }
   }
 
-  @keyframes pulse {
+  @keyframes blink {
     0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
+    50% { opacity: .3; }
   }
 
-  @keyframes growWidth {
-    from { width: 0; }
+  @keyframes grow {
+    from { width: 0 !important; }
   }
 
-  /* Animation delays for KPI cards */
-  .kpi-card:nth-child(1) { animation-delay: 0.10s; }
-  .kpi-card:nth-child(2) { animation-delay: 0.15s; }
-  .kpi-card:nth-child(3) { animation-delay: 0.20s; }
-  .kpi-card:nth-child(4) { animation-delay: 0.25s; }
-  .kpi-card:nth-child(5) { animation-delay: 0.30s; }
-  .kpi-card:nth-child(6) { animation-delay: 0.35s; }
-
-  .panel:nth-child(1) { animation-delay: 0.25s; }
-  .panel:nth-child(2) { animation-delay: 0.30s; }
-
-  /* ── MOBILE TWEAKS ── */
-  @media (max-width: 480px) {
-    .wrapper { padding: 20px 16px 48px; }
-    .kpi-grid { gap: 12px; }
-    h1 { font-size: 20px; }
-    .kpi-value { font-size: 26px; }
-    .budget-alert { flex-direction: column; }
-  }
+  .kpi:nth-child(1) { animation-delay: .08s; }
+  .kpi:nth-child(2) { animation-delay: .13s; }
+  .kpi:nth-child(3) { animation-delay: .18s; }
+  .kpi:nth-child(4) { animation-delay: .23s; }
+  .kpi:nth-child(5) { animation-delay: .28s; }
+  .kpi:nth-child(6) { animation-delay: .33s; }
 </style>
 </head>
 <body>
-<div class="wrapper">
+<div class="page">
 
   <!-- HEADER -->
   <div class="header">
-    <div class="badge">Campanha Ativa</div>
-    <div class="header-top">
+    <div class="eyebrow">Campanha ativa</div>
+    <div class="header-row">
       <div>
-        <h1>Dashboard de Performance<br>Campanha de Leads WhatsApp</h1>
-        <p class="subtitle">Acompanhamento dos resultados da campanha</p>
+        <h1>Performance · Leads WhatsApp
+          <span class="h1-sub">CotaSeg — Campanha de Pesquisa</span>
+        </h1>
       </div>
-      <div class="date-tag">📅 Atualizado em 17/04/2026</div>
+      <div class="date-pill">📅 Atualizado em 17/04/2026</div>
     </div>
   </div>
 
-  <!-- BUDGET ALERT -->
-  <div class="budget-alert">
-    <div class="alert-icon">⚠️</div>
-    <div class="alert-content">
+  <!-- BUDGET BANNER -->
+  <div class="budget-banner">
+    <div class="bb-icon">⚠️</div>
+    <div class="bb-text">
       <strong>Orçamento próximo do limite</strong>
-      <p>Apenas <strong style="color:var(--red)">R$ 313,46</strong> restantes disponíveis. Considere revisão ou reabastecimento.</p>
+      <p>Apenas <strong style="color:var(--rose)">R$ 196,44</strong> disponíveis. Crédito promocional previsto em breve — acompanhe para evitar pausas.</p>
     </div>
-    <div class="budget-bar-wrap">
-      <div class="budget-labels">
-        <span>Gasto: <strong style="color:var(--text)">R$ 886,62</strong></span>
-        <span>Restante: R$ 313,46</span>
+    <div class="bb-bar-col">
+      <div class="bb-labels">
+        <span class="spent">Gasto: R$ 1.006,70</span>
+        <span class="left">Restante: R$ 196,44</span>
       </div>
-      <div class="budget-bar">
-        <div class="budget-fill"></div>
+      <div class="bb-track">
+        <div class="bb-fill"></div>
       </div>
-      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:6px;">
-        <span>73,9% utilizado</span>
+      <div class="bb-pct">
+        <span>83,7% utilizado</span>
         <span>Total: R$ 1.200,00</span>
       </div>
     </div>
   </div>
 
   <!-- KPI CARDS -->
-<div class="kpi-grid">
+  <div class="kpi-grid">
 
-  <div class="kpi-card green">
-    <div class="kpi-label"><span class="kpi-dot"></span>Conversões</div>
-    <div class="kpi-value" style="font-size:clamp(20px,2.5vw,26px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">39</div>
-    <div class="kpi-sub">Leads gerados</div>
-    <div class="kpi-badge good">↑ Excelente</div>
+    <div class="kpi g">
+      <div class="kpi-label">Conversões</div>
+      <div class="kpi-num">41</div>
+      <div class="kpi-hint">Leads gerados</div>
+      <span class="tag ok">↑ Excelente</span>
+    </div>
+
+    <div class="kpi g">
+      <div class="kpi-label">Taxa de Conv.</div>
+      <div class="kpi-num">21,24%</div>
+      <div class="kpi-hint">Cliques → Leads</div>
+      <span class="tag ok">↑ Muito alta</span>
+    </div>
+
+    <div class="kpi g">
+      <div class="kpi-label">CTR</div>
+      <div class="kpi-num">5,48%</div>
+      <div class="kpi-hint">Impressões → Cliques</div>
+      <span class="tag ok">↑ Acima do mercado</span>
+    </div>
+
+    <div class="kpi g">
+      <div class="kpi-label">Custo / Lead</div>
+      <div class="kpi-num">R$24,55</div>
+      <div class="kpi-hint">Custo por conversão</div>
+      <span class="tag ok">↑ Eficiente</span>
+    </div>
+
+    <div class="kpi a">
+      <div class="kpi-label">Custo Total</div>
+      <div class="kpi-num">R$1.006,70</div>
+      <div class="kpi-hint">83,7% do orçamento</div>
+      <span class="tag warn">⚡ Monitorar</span>
+    </div>
+
+    <div class="kpi r">
+      <div class="kpi-label">Saldo</div>
+      <div class="kpi-num">R$196,44</div>
+      <div class="kpi-hint">Disponível agora</div>
+      <span class="tag bad">⚠ Atenção</span>
+    </div>
+
   </div>
 
-  <div class="kpi-card green">
-    <div class="kpi-label"><span class="kpi-dot"></span>Taxa de Conversão</div>
-    <div class="kpi-value" style="font-size:clamp(20px,2.5vw,26px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">21,91%</div>
-    <div class="kpi-sub">Cliques → Leads</div>
-    <div class="kpi-badge good">↑ Muito acima da média</div>
-  </div>
-
-  <div class="kpi-card green">
-    <div class="kpi-label"><span class="kpi-dot"></span>CTR</div>
-    <div class="kpi-value" style="font-size:clamp(20px,2.5vw,26px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">5,35%</div>
-    <div class="kpi-sub">Impressões → Cliques</div>
-    <div class="kpi-badge good">↑ Acima do mercado</div>
-  </div>
-
-  <div class="kpi-card green">
-    <div class="kpi-label"><span class="kpi-dot"></span>Custo por Conversão</div>
-    <div class="kpi-value" style="font-size:clamp(20px,2.5vw,26px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">R$22,73</div>
-    <div class="kpi-sub">Por lead gerado</div>
-    <div class="kpi-badge good">↑ Eficiente</div>
-  </div>
-
-  <div class="kpi-card yellow">
-    <div class="kpi-label"><span class="kpi-dot"></span>Custo Total</div>
-    <div class="kpi-value" style="font-size:clamp(20px,2.5vw,26px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">R$886,62</div>
-    <div class="kpi-sub">73,9% do orçamento</div>
-    <div class="kpi-badge warn">⚡ Monitorar</div>
-  </div>
-
-  <div class="kpi-card red">
-    <div class="kpi-label"><span class="kpi-dot"></span>Fundos Disponíveis</div>
-    <div class="kpi-value" style="font-size:clamp(20px,2.5vw,26px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">R$313,46</div>
-    <div class="kpi-sub">~13 dias estimados</div>
-    <div class="kpi-badge bad">⚠ Atenção urgente</div>
-  </div>
-
-</div>
-
-  <!-- CHARTS -->
-  <div class="bottom-grid">
+  <!-- PANELS -->
+  <div class="panels">
 
     <div class="panel">
-      <div class="panel-title"><span>📊</span> Funil de Conversão</div>
-      <div class="chart-wrap">
+      <div class="panel-h"><span>📊</span>Funil de Conversão</div>
+      <div class="chart-box">
         <canvas id="funnelChart"></canvas>
       </div>
     </div>
 
     <div class="panel">
-      <div class="panel-title"><span>📈</span> Indicadores de Desempenho</div>
-      <div class="metric-row">
-        <span class="metric-name">Impressões</span>
-        <div class="metric-bar-wrap">
-          <div class="metric-bar"><div class="metric-bar-fill" style="width:100%;background:var(--accent)"></div></div>
-        </div>
-        <span class="metric-val" style="color:var(--accent)">3.329</span>
+      <div class="panel-h"><span>📈</span>Indicadores de Desempenho</div>
+
+      <div class="mrow">
+        <span class="mrow-label">Impressões</span>
+        <div class="mrow-track"><div class="mrow-fill" style="width:100%;background:var(--purple)"></div></div>
+        <span class="mrow-val" style="color:var(--purple)">3.524</span>
       </div>
-      <div class="metric-row">
-        <span class="metric-name">Cliques</span>
-        <div class="metric-bar-wrap">
-          <div class="metric-bar"><div class="metric-bar-fill" style="width:5.35%;background:var(--blue)"></div></div>
-        </div>
-        <span class="metric-val" style="color:var(--blue)">178</span>
+
+      <div class="mrow">
+        <span class="mrow-label">Cliques</span>
+        <div class="mrow-track"><div class="mrow-fill" style="width:5.48%;background:var(--ice)"></div></div>
+        <span class="mrow-val" style="color:var(--ice)">193</span>
       </div>
-      <div class="metric-row">
-        <span class="metric-name">Conversões</span>
-        <div class="metric-bar-wrap">
-          <div class="metric-bar"><div class="metric-bar-fill" style="width:21.91%;background:var(--green)"></div></div>
-        </div>
-        <span class="metric-val" style="color:var(--green)">39</span>
+
+      <div class="mrow">
+        <span class="mrow-label">Conversões</span>
+        <div class="mrow-track"><div class="mrow-fill" style="width:21.24%;background:var(--green)"></div></div>
+        <span class="mrow-val" style="color:var(--green)">41</span>
       </div>
-      <div class="metric-row">
-        <span class="metric-name">CPC Médio</span>
-        <div class="metric-bar-wrap">
-          <div class="metric-bar"><div class="metric-bar-fill" style="width:40%;background:var(--yellow)"></div></div>
-        </div>
-        <span class="metric-val" style="color:var(--yellow)">R$4,98</span>
+
+      <div class="mrow">
+        <span class="mrow-label">CPC Médio</span>
+        <div class="mrow-track"><div class="mrow-fill" style="width:43%;background:var(--amber)"></div></div>
+        <span class="mrow-val" style="color:var(--amber)">R$5,22</span>
       </div>
-      <div class="metric-row">
-        <span class="metric-name">% Topo de página</span>
-        <div class="metric-bar-wrap">
-          <div class="metric-bar"><div class="metric-bar-fill" style="width:79.77%;background:var(--green)"></div></div>
-        </div>
-        <span class="metric-val" style="color:var(--green)">79,77%</span>
+
+      <div class="mrow">
+        <span class="mrow-label">Topo de página</span>
+        <div class="mrow-track"><div class="mrow-fill" style="width:80.16%;background:var(--green)"></div></div>
+        <span class="mrow-val" style="color:var(--green)">80,16%</span>
       </div>
+
+      <div class="mrow">
+        <span class="mrow-label">1ª Posição</span>
+        <div class="mrow-track"><div class="mrow-fill" style="width:38.31%;background:var(--ice)"></div></div>
+        <span class="mrow-val" style="color:var(--ice)">38,31%</span>
+      </div>
+
     </div>
 
   </div>
 
   <!-- INSIGHTS -->
-  <div class="insights-grid">
+  <div class="insights">
 
-    <div class="insight-card good">
-      <div class="insight-icon">🏆</div>
-      <div class="insight-body">
+    <div class="ins ok">
+      <div class="ins-icon">🏆</div>
+      <div class="ins-body">
         <strong>Taxa de conversão excelente</strong>
-        <p>21,91% está muito acima da média do mercado (tipicamente 2–5%). Campanha com altíssima eficiência de qualificação.</p>
+        <p>21,24% está muito acima da média do mercado (tipicamente 2–5%). Alta qualificação de público.</p>
       </div>
     </div>
 
-    <div class="insight-card good">
-      <div class="insight-icon">🎯</div>
-      <div class="insight-body">
+    <div class="ins ok">
+      <div class="ins-icon">🎯</div>
+      <div class="ins-body">
         <strong>CTR acima da média</strong>
-        <p>CTR de 5,35% indica criativo e copy altamente relevantes para o público. Benchmark de mercado é ~2%.</p>
+        <p>5,48% indica criativo e copy altamente relevantes. Benchmark de mercado é ~2%.</p>
       </div>
     </div>
 
-    <div class="insight-card good">
-      <div class="insight-icon">💚</div>
-      <div class="insight-body">
+    <div class="ins ok">
+      <div class="ins-icon">💚</div>
+      <div class="ins-body">
         <strong>CPC controlado</strong>
-        <p>R$4,98 por clique é competitivo para o segmento. Cada lead gerado custa apenas R$22,73 — ótimo CAC.</p>
+        <p>R$5,22 por clique competitivo para o segmento. Cada lead gerado custa R$24,55 — ótimo CAC.</p>
       </div>
     </div>
 
-    <div class="insight-card good">
-      <div class="insight-icon">👑</div>
-      <div class="insight-body">
+    <div class="ins ok">
+      <div class="ins-icon">👑</div>
+      <div class="ins-body">
         <strong>Dominância no topo da página</strong>
-        <p>79,77% das impressões no topo garante máxima visibilidade e autoridade de marca perante o público.</p>
+        <p>80,16% das impressões no topo garantem máxima visibilidade e autoridade de marca.</p>
       </div>
     </div>
 
-    <div class="insight-card warn">
-      <div class="insight-icon">⚠️</div>
-      <div class="insight-body">
+    <div class="ins warn">
+      <div class="ins-icon">⚠️</div>
+      <div class="ins-body">
         <strong>Orçamento próximo do limite</strong>
-        <p>Com apenas R$313,46 disponíveis (26,1% do total), Temos folga pois em breve será creditado o valor promocional, sugerido a adesão no inicio da campanha.</p>
+        <p>Restam R$196,44 (16,3% do total). Crédito promocional previsto — aguardar antes de pausar a campanha.</p>
       </div>
     </div>
 
-    <div class="insight-card info">
-      <div class="insight-icon">💡</div>
-      <div class="insight-body">
+    <div class="ins info">
+      <div class="ins-icon">💡</div>
+      <div class="ins-body">
         <strong>Oportunidade de escala</strong>
-        <p>Com métricas tão sólidas, aumentar o investimento pode multiplicar leads mantendo o custo por conversão eficiente.</p>
+        <p>Com métricas tão sólidas, aumentar o investimento pode multiplicar leads mantendo CAC eficiente.</p>
       </div>
     </div>
 
@@ -644,75 +624,62 @@
 
   <!-- FOOTER -->
   <div class="footer">
-    <p>Dashboard gerado para <strong>Campanha de Leads WhatsApp - CotaSeg</strong> · Dados fornecidos por Impulso Leads · Todos os valores em BRL</p>
+    <p>Dashboard gerado para <strong>Campanha de Leads WhatsApp · CotaSeg</strong> &nbsp;·&nbsp; Dados: Impulso Leads &nbsp;·&nbsp; Valores em BRL</p>
   </div>
 
 </div>
 
 <script>
-// Funnel Chart
-const ctx = document.getElementById('funnelChart').getContext('2d');
-new Chart(ctx, {
-  type: 'bar',
-  data: {
-    labels: ['Impressões', 'Cliques', 'Conversões'],
-    datasets: [{
-      label: 'Volume',
-      data: [3329, 178, 39],
-      backgroundColor: [
-        'rgba(124,106,247,0.7)',
-        'rgba(96,165,250,0.7)',
-        'rgba(34,211,165,0.7)',
-      ],
-      borderColor: [
-        'rgba(124,106,247,1)',
-        'rgba(96,165,250,1)',
-        'rgba(34,211,165,1)',
-      ],
-      borderWidth: 1.5,
-      borderRadius: 8,
-      borderSkipped: false,
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        backgroundColor: '#1a1e27',
-        borderColor: 'rgba(255,255,255,0.1)',
-        borderWidth: 1,
-        titleColor: '#f0f2f5',
-        bodyColor: '#6b7280',
-        padding: 12,
-        callbacks: {
-          label: ctx => ' ' + ctx.parsed.y.toLocaleString('pt-BR')
+  const ctx = document.getElementById('funnelChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Impressões', 'Cliques', 'Conversões'],
+      datasets: [{
+        data: [3524, 193, 41],
+        backgroundColor: ['rgba(167,139,250,0.65)', 'rgba(94,184,255,0.65)', 'rgba(0,229,160,0.65)'],
+        borderColor:     ['rgba(167,139,250,1)',    'rgba(94,184,255,1)',    'rgba(0,229,160,1)'],
+        borderWidth: 1.5,
+        borderRadius: 8,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#141920',
+          borderColor: 'rgba(255,255,255,0.08)',
+          borderWidth: 1,
+          titleColor: '#e8ecf2',
+          bodyColor: '#5a6475',
+          padding: 12,
+          callbacks: {
+            label: c => ' ' + c.parsed.y.toLocaleString('pt-BR')
+          }
         }
-      }
-    },
-    scales: {
-      x: {
-        grid: { color: 'rgba(255,255,255,0.04)' },
-        ticks: { color: '#6b7280', font: { family: 'DM Sans', size: 12 } },
-        border: { color: 'transparent' }
       },
-      y: {
-        grid: { color: 'rgba(255,255,255,0.04)' },
-        ticks: {
-          color: '#6b7280',
-          font: { family: 'DM Sans', size: 11 },
-          callback: v => v >= 1000 ? (v/1000).toFixed(1)+'k' : v
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: { color: '#5a6475', font: { family: 'Manrope', size: 12 } },
+          border: { color: 'transparent' }
         },
-        border: { color: 'transparent' }
-      }
-    },
-    animation: {
-      duration: 1200,
-      easing: 'easeOutQuart'
+        y: {
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          ticks: {
+            color: '#5a6475',
+            font: { family: 'Space Mono', size: 10 },
+            callback: v => v >= 1000 ? (v/1000).toFixed(1)+'k' : v
+          },
+          border: { color: 'transparent' }
+        }
+      },
+      animation: { duration: 1100, easing: 'easeOutQuart' }
     }
-  }
-});
+  });
 </script>
 </body>
 </html>
